@@ -3,6 +3,7 @@ import NewPost from './NewPost';
 import Table from './Table';
 import axios from 'axios';
 import UpdatePost from './UpdatePost';
+import './Posts.css'
 
 export default class Posts extends Component {
     
@@ -16,7 +17,7 @@ export default class Posts extends Component {
     }
 
     async componentDidMount(){
-        await axios.get('http://jsonplaceholder.typicode.com/posts')
+        await axios.get('http://jsonplaceholder.typicode.com/posts?_limit=5')
         .then(response => {
             response.data.forEach(post => post.updateClicked = false)
             this.setState({posts: response.data})
@@ -45,9 +46,14 @@ export default class Posts extends Component {
             body: this.state.body
         }
 
+        let createClicked = this.state.createClicked
+
         await axios.post('http://jsonplaceholder.typicode.com/posts', post)
         const posts = [...this.state.posts, post];
-        this.setState({posts})
+        this.setState({
+            posts,
+            createClicked: !createClicked
+        })
     }
 
     updatePost = e => {
@@ -58,6 +64,7 @@ export default class Posts extends Component {
         let updateClicked = this.state.updateClicked
 
         this.setState({
+            id: post.id,
             title: post.title,
             body: post.body,
             updateClicked: !updateClicked
@@ -76,18 +83,28 @@ export default class Posts extends Component {
         })
     }
 
-    handleSubmitUpdate = e => {
-        console.log('submit')
-        // await axios.put(`http://jsonplaceholder.typicode.com/posts/${post.id}`, post)
+    handleSubmitUpdate = async e => {
+        e.preventDefault();
+        
+        let id = this.state.id
+        let index = id - 1;
 
-        // const posts = [...this.state.posts];
-        // post.title = this.state.title;
-        // post.body = this.state.body;
-        // const index = posts.indexOf(post);
-        // posts[index] = {...post};
-        // this.setState({
-        //     posts,
-        // })
+        console.log(id)
+
+        const post = {...this.state.posts[index]};
+        post.title = this.state.title;
+        post.body = this.state.body
+        const posts = [...this.state.posts];
+        posts[index] = post
+
+        let updateClicked = this.state.updateClicked
+
+        await axios.put(`http://jsonplaceholder.typicode.com/posts/${id}`, post)
+
+        this.setState({
+            posts,
+            updateClicked: !updateClicked
+        })
     }
 
     
@@ -102,13 +119,8 @@ export default class Posts extends Component {
 
     render() {
         return (
-            <div>
-                <NewPost 
-                        handleChange={this.handleChangeCreate}
-                        handleSubmit={this.handleSubmitCreate}
-                        onCreate={this.createPost}
-                        createClicked={this.state.createClicked}/>
-
+            <div className="container">
+                
                 <table className="table">
                 <thead>
                     <tr>
@@ -119,18 +131,16 @@ export default class Posts extends Component {
                 </thead>
 
                 <tbody>
+                    {this.state.posts.map((post, index) => {
+                        return <Table  id={post.id}
+                                title={post.title}
+                                body={post.body}
+                                key={post.id}
 
-                {this.state.posts.map((post, index) => {
-                    return <Table  id={post.id}
-                            title={post.title}
-                            body={post.body}
-                            key={post.id}
 
-
-                            onUpdate={() =>this.updatePost(post)}
-                            onDelete={() => this.deletePost(post)}/>
-                })}
-
+                                onUpdate={() =>this.updatePost(post)}
+                                onDelete={() => this.deletePost(post)}/>
+                    })}
                 </tbody>
                 </table>
 
@@ -143,6 +153,12 @@ export default class Posts extends Component {
                             handleSubmit={this.handleSubmitUpdate}
                             updateClicked={this.state.updateClicked}
                 />
+
+                <NewPost 
+                        handleChange={this.handleChangeCreate}
+                        handleSubmit={this.handleSubmitCreate}
+                        onCreate={this.createPost}
+                        createClicked={this.state.createClicked}/>
             </div>
         )
     }
