@@ -12,8 +12,7 @@ export default class Posts extends Component {
         id: 0,
         title: '',
         body: '',
-        updateClicked: false,
-        submitted: false
+        updateClicked: false
     }
 
     async componentDidMount(){
@@ -69,30 +68,30 @@ export default class Posts extends Component {
 
         let updateClicked = this.state.updateClicked
 
-        await axios.put(`/posts/${id}`, post)
-
         this.setState({
             posts,
             updateClicked: !updateClicked
         })
+
+        await axios.put(`/posts/${id}`, post)
+                    .then(this.props.history.replace('/posts', posts))
     }
 
     
 
     deletePost = async post => {
-        await axios.delete(`http://jsonplaceholder.typicode.com/posts/${post.id}`);
         const posts = this.state.posts.filter(p => p.id !== post.id)
         this.setState({posts})
+
+        await axios.delete(`http://jsonplaceholder.typicode.com/posts/${post.id}`)
+                    .then(this.props.history.replace('/posts', posts));
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        // If Route has changed, update state (Ensures consistency between location state and Component state).
-        if (this.props.location !== prevProps.location) {
+        if (this.props.location.state!==undefined && this.props.location.state !== this.state.posts) {
           this.setState({posts: this.props.location.state});
         }
       }
-
-
 
     render() {
         return (

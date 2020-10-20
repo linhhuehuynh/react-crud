@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from '../axios';
-import { Redirect } from 'react-router-dom';
 
 export default class NewPost extends Component {
 
@@ -11,8 +10,7 @@ constructor(props) {
         posts: this.props.location.posts ,
         id: 0,
         title: '',
-        body: '',
-        submitted: false
+        body: ''
     }
 }
 
@@ -23,8 +21,13 @@ constructor(props) {
     handleSubmit = async e => {
         e.preventDefault();
         const currentPosts = this.state.posts;
-        const last = currentPosts[currentPosts.length-1]
-        let id = last.id + 1;
+        let id = null;
+        if (currentPosts.length === 0) { id = 1};
+        if (currentPosts.length !== 0 ) {
+            const last = currentPosts[currentPosts.length-1]
+            id = last.id + 1;
+            }
+
         const post = {
             id,
             title: this.state.title,
@@ -44,13 +47,8 @@ constructor(props) {
     }
 
     render() {
-        // let redirect = null;
-        // if (this.state.submitted) {
-        //     redirect = <Redirect to="/posts" />;
-        // }
-
         return (
-            <div>
+            <div className="container">
                 <form onSubmit={this.handleSubmit}>
                         <label>Title</label><br></br>
                         <input type="text" id="title" name="title" onChange={this.handleChange}/><br></br>
