@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import NewPost from './NewPost';
 import Table from './Table';
-import axios from 'axios';
+import axios from '../axios';
 import UpdatePost from './UpdatePost';
+import {NavLink} from 'react-router-dom';
 import './Posts.css'
 
 export default class Posts extends Component {
@@ -12,49 +12,19 @@ export default class Posts extends Component {
         id: 0,
         title: '',
         body: '',
-        createClicked: false,
-        updateClicked: false
+        updateClicked: false,
+        submitted: false
     }
 
     async componentDidMount(){
-        await axios.get('http://jsonplaceholder.typicode.com/posts?_limit=5')
+        await axios.get('/posts?_limit=5')
         .then(response => {
             response.data.forEach(post => post.updateClicked = false)
             this.setState({posts: response.data})
         })
     }
 
-    createPost = () => {
-        let createClicked = this.state.createClicked
-        this.setState({
-            createClicked: !createClicked
-        })
-    }
 
-    handleChangeCreate = e => {
-        this.setState({[e.target.name]: e.target.value})
-    }
-
-    handleSubmitCreate = async e => {
-        e.preventDefault();
-        const currentPosts = this.state.posts;
-        const last = currentPosts[currentPosts.length-1]
-        let id = last.id + 1;
-        const post = {
-            id,
-            title: this.state.title,
-            body: this.state.body
-        }
-
-        let createClicked = this.state.createClicked
-
-        await axios.post('http://jsonplaceholder.typicode.com/posts', post)
-        const posts = [...this.state.posts, post];
-        this.setState({
-            posts,
-            createClicked: !createClicked
-        })
-    }
 
     updatePost = e => {
         let index = this.state.posts.findIndex(p => p.id === e.id);
@@ -99,7 +69,7 @@ export default class Posts extends Component {
 
         let updateClicked = this.state.updateClicked
 
-        await axios.put(`http://jsonplaceholder.typicode.com/posts/${id}`, post)
+        await axios.put(`/posts/${id}`, post)
 
         this.setState({
             posts,
@@ -115,11 +85,27 @@ export default class Posts extends Component {
         this.setState({posts})
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        // If Route has changed, update state (Ensures consistency between location state and Component state).
+        if (this.props.location !== prevProps.location) {
+          this.setState({posts: this.props.location.state});
+        }
+      }
+
 
 
     render() {
         return (
             <div className="container">
+                <button>
+                    <NavLink to =
+                    {{   pathname: '/new',
+                            hash: '#submit',
+                            search: '?quick-submit=true',
+                            posts: this.state.posts}}>New Post
+                            
+                    </NavLink>
+                </button>
                 
                 <table className="table">
                 <thead>
@@ -153,12 +139,6 @@ export default class Posts extends Component {
                             handleSubmit={this.handleSubmitUpdate}
                             updateClicked={this.state.updateClicked}
                 />
-
-                <NewPost 
-                        handleChange={this.handleChangeCreate}
-                        handleSubmit={this.handleSubmitCreate}
-                        onCreate={this.createPost}
-                        createClicked={this.state.createClicked}/>
             </div>
         )
     }
