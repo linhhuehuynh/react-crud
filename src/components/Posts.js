@@ -116,6 +116,8 @@ export default class Posts extends Component {
                         <th>ID</th>
                         <th>Title</th>
                         <th>Body</th>
+                        <th>Update</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
 
