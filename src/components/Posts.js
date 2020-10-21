@@ -16,8 +16,8 @@ export default class Posts extends Component {
         cancel: false
     }
 
-    async componentDidMount(){
-        await axios.get('/posts?_limit=5')
+    componentDidMount(){
+        axios.get('/posts?_limit=5')
         .then(response => {
             response.data.forEach(post => post.updateClicked = false)
             this.setState({posts: response.data})
@@ -53,7 +53,7 @@ export default class Posts extends Component {
         })
     }
 
-    handleSubmitUpdate = async e => {
+    handleSubmitUpdate = e => {
         e.preventDefault();
         
         let id = this.state.id
@@ -72,8 +72,8 @@ export default class Posts extends Component {
             updateClicked: !updateClicked
         })
 
-        await axios.put(`/posts/${id}`, post)
-                    .then(this.props.history.replace('/posts', posts))
+        axios.put(`/posts/${id}`, post)
+            .then(this.props.history.replace('/posts', posts))
     }
 
     handleCancel = () => {
@@ -83,12 +83,12 @@ export default class Posts extends Component {
     }
     
 
-    deletePost = async post => {
+    deletePost = post => {
         const posts = this.state.posts.filter(p => p.id !== post.id)
         this.setState({posts})
 
-        await axios.delete(`/posts/${post.id}`)
-                    .then(this.props.history.replace('/posts', posts));
+        axios.delete(`/posts/${post.id}`)
+            .then(this.props.history.replace('/posts', posts));
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

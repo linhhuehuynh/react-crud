@@ -18,7 +18,7 @@ export default class NewPost extends Component {
         this.setState({[e.target.name]: e.target.value})
     }
 
-    handleSubmit = async e => {
+    handleSubmit = e => {
         e.preventDefault();
         const currentPosts = this.state.posts;
         let id = null;
@@ -37,11 +37,11 @@ export default class NewPost extends Component {
         const posts = [...this.state.posts, post];
         this.setState({posts})
 
-        await axios.post('/posts', post)
-                    .then(res => {
-                        console.log(res);
-                        this.props.history.replace('/posts', posts)
-                    })
+        axios.post('/posts', post)
+             .then(res => {
+                console.log(res);
+                this.props.history.replace('/posts', posts)
+            })
     }
 
     handleCancel = () => {
