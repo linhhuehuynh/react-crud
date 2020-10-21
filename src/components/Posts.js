@@ -78,7 +78,7 @@ export default class Posts extends Component {
 
     handleCancel = () => {
         this.setState({
-            cancel: true
+            updateClicked: !this.state.updateClicked
         })
     }
     
@@ -132,17 +132,18 @@ export default class Posts extends Component {
                     })}
                 </tbody>
                 </table>
-
+                
                 <UpdatePost
-                            id={this.state.id}
-                            title={this.state.title}
-                            body={this.state.body}
-                            handleTitle={this.handleTitle}
-                            handleBody={this.handleBody}
-                            handleSubmit={this.handleSubmitUpdate}
-                            handleCancel={this.handleCancel}
-                            updateClicked={this.state.updateClicked}
+                id={this.state.id}
+                title={this.state.title}
+                body={this.state.body}
+                handleTitle={this.handleTitle}
+                handleBody={this.handleBody}
+                handleSubmit={this.handleSubmitUpdate}
+                handleCancel={this.handleCancel}
+                updateClicked={this.state.updateClicked}
                 />
+                
             </div>
         )
     }

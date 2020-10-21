@@ -11,7 +11,7 @@ const UpdatePost = (props) => {
                     <label>Body</label><br></br>
                     <textarea className="textbox" name="body" rows="10" cols="50" value={props.body} onChange={props.handleBody}></textarea><br></br>
                     <input className="button buttontext" type="submit"/>
-                    {/* <input onClick={props.handleCancel} className="button buttontext" value="Cancel" type="button"/>                     */}
+                    <input onClick={props.handleCancel} className="button buttontext" style={{marginLeft: '1rem'}}value="Cancel" type="button"/>                    
                 </form> : null
         }
         </div>

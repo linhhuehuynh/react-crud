@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from '../axios';
+import { Redirect } from 'react-router-dom';
 
 export default class NewPost extends Component {
 
@@ -10,7 +11,8 @@ constructor(props) {
         posts: this.props.location.posts ,
         id: 0,
         title: '',
-        body: ''
+        body: '',
+        cancel: false
     }
 }
 
@@ -46,9 +48,21 @@ constructor(props) {
                     })
     }
 
+    handleCancel = () => {
+        this.setState({
+            cancel: true
+        })
+    }
+
     render() {
+        let redirect = null;
+        if (this.state.cancel) {
+            redirect = <Redirect to="/posts" />;
+        }
+        
         return (
             <div className="container">
+                {redirect}
                 <form onSubmit={this.handleSubmit}>
                         <h3>CREATE A NEW POST</h3>
                         <label>Title</label><br></br>
@@ -56,6 +70,7 @@ constructor(props) {
                         <label>Body</label><br></br>
                         <textarea className="textbox" name="body" rows="5" cols="30" onChange={this.handleChange}></textarea><br></br>
                         <input className="button buttontext" type="submit"/>
+                        <input onClick={this.handleCancel} className="button buttontext" style={{marginLeft: '1rem'}}value="Cancel" type="button"/>                    
                 </form>
             </div>
         )
