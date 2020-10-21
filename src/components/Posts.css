@@ -4,7 +4,33 @@ td {
     margin: 2rem;
 }
 
+table {
+    margin-top: 1em;
+}
+
 .container {
     margin: 2rem
+}
+
+.button {
+    padding: 0.75em 1em;
+    background-color: salmon;
+    border-radius: 3px;
+    border: none
+}
+
+.buttontext {
+    text-decoration: none;
+    font-weight: bold;
+    color: black
+}
+
+.textbox {
+    width: 35em;
+    margin: 0.75rem 0;
+}
+
+label {
+    font-weight: bold;
 }
 

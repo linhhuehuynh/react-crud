@@ -50,11 +50,12 @@ constructor(props) {
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmit}>
+                        <h3>CREATE A NEW POST</h3>
                         <label>Title</label><br></br>
-                        <input type="text" id="title" name="title" onChange={this.handleChange}/><br></br>
+                        <input className="textbox" type="text" id="title" name="title" onChange={this.handleChange}/><br></br>
                         <label>Body</label><br></br>
-                        <textarea name="body" rows="5" cols="30" onChange={this.handleChange}></textarea><br></br>
-                        <input type="submit"/>
+                        <textarea className="textbox" name="body" rows="5" cols="30" onChange={this.handleChange}></textarea><br></br>
+                        <input className="button buttontext" type="submit"/>
                 </form>
             </div>
         )

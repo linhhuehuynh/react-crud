@@ -12,7 +12,8 @@ export default class Posts extends Component {
         id: 0,
         title: '',
         body: '',
-        updateClicked: false
+        updateClicked: false,
+        cancel: false
     }
 
     async componentDidMount(){
@@ -58,8 +59,6 @@ export default class Posts extends Component {
         let id = this.state.id
         let index = id - 1;
 
-        console.log(id)
-
         const post = {...this.state.posts[index]};
         post.title = this.state.title;
         post.body = this.state.body
@@ -77,13 +76,18 @@ export default class Posts extends Component {
                     .then(this.props.history.replace('/posts', posts))
     }
 
+    handleCancel = () => {
+        this.setState({
+            cancel: true
+        })
+    }
     
 
     deletePost = async post => {
         const posts = this.state.posts.filter(p => p.id !== post.id)
         this.setState({posts})
 
-        await axios.delete(`http://jsonplaceholder.typicode.com/posts/${post.id}`)
+        await axios.delete(`/posts/${post.id}`)
                     .then(this.props.history.replace('/posts', posts));
     }
 
@@ -96,12 +100,12 @@ export default class Posts extends Component {
     render() {
         return (
             <div className="container">
-                <button>
-                    <NavLink to =
-                    {{   pathname: '/new',
-                            hash: '#submit',
-                            search: '?quick-submit=true',
-                            posts: this.state.posts}}>New Post
+                <button className='button'>
+                    <NavLink className='buttontext'
+                    to ={{ pathname: '/new',
+                           hash: '#submit',
+                           search: '?quick-submit=true',
+                           posts: this.state.posts}}>New Post
                             
                     </NavLink>
                 </button>
@@ -136,6 +140,7 @@ export default class Posts extends Component {
                             handleTitle={this.handleTitle}
                             handleBody={this.handleBody}
                             handleSubmit={this.handleSubmitUpdate}
+                            handleCancel={this.handleCancel}
                             updateClicked={this.state.updateClicked}
                 />
             </div>

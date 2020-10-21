@@ -6,8 +6,8 @@ const table = (props) => {
                         <td>{props.id}</td>
                         <td>{props.title}</td>
                         <td>{props.body}</td>
-                        <td><button onClick={props.onUpdate}> Update</button></td>
-                        <td><button onClick={props.onDelete}>Delete</button></td>
+                        <td><button className="button buttontext" onClick={props.onUpdate}> Update</button></td>
+                        <td><button className="button buttontext" onClick={props.onDelete}>Delete</button></td>
         </tr>
       );
 }

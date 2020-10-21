@@ -5,11 +5,13 @@ const UpdatePost = (props) => {
         <div>
             {props.updateClicked ? 
                     <form onSubmit={props.handleSubmit}>
+                    <h3>EDIT POST {props.id}</h3>
                     <label>Title</label><br></br>
-                    <input value={props.title} onChange={props.handleTitle}/><br></br>
+                    <input className="textbox" value={props.title} onChange={props.handleTitle}/><br></br>
                     <label>Body</label><br></br>
-                    <textarea name="body" rows="5" cols="30" value={props.body} onChange={props.handleBody}></textarea><br></br>
-                    <input type="submit"/>
+                    <textarea className="textbox" name="body" rows="10" cols="50" value={props.body} onChange={props.handleBody}></textarea><br></br>
+                    <input className="button buttontext" type="submit"/>
+                    {/* <input onClick={props.handleCancel} className="button buttontext" value="Cancel" type="button"/>                     */}
                 </form> : null
         }
         </div>
