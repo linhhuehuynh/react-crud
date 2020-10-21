@@ -3,17 +3,16 @@ import axios from '../axios';
 
 export default class NewPost extends Component {
 
-    
-constructor(props) {
-    super(props);
-    this.state = {
-        posts: this.props.location.posts ,
-        id: 0,
-        title: '',
-        body: '',
-        cancel: false
+    constructor(props) {
+        super(props);
+        this.state = {
+            posts: this.props.location.posts ,
+            id: 0,
+            title: '',
+            body: '',
+            cancel: false
+        }
     }
-}
 
     handleChange = e => {
         this.setState({[e.target.name]: e.target.value})
@@ -36,9 +35,7 @@ constructor(props) {
         }
 
         const posts = [...this.state.posts, post];
-        this.setState({
-            posts
-        })
+        this.setState({posts})
 
         await axios.post('/posts', post)
                     .then(res => {

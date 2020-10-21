@@ -111,28 +111,28 @@ export default class Posts extends Component {
                 </button>
                 
                 <table className="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Body</th>
-                        <th>Update</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Body</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    {this.state.posts.map((post, index) => {
-                        return <Table  id={post.id}
-                                title={post.title}
-                                body={post.body}
-                                key={post.id}
+                    <tbody>
+                        {this.state.posts.map((post, index) => {
+                            return <Table  id={post.id}
+                                    title={post.title}
+                                    body={post.body}
+                                    key={post.id}
 
 
-                                onUpdate={() =>this.updatePost(post)}
-                                onDelete={() => this.deletePost(post)}/>
-                    })}
-                </tbody>
+                                    onUpdate={() =>this.updatePost(post)}
+                                    onDelete={() => this.deletePost(post)}/>
+                        })}
+                    </tbody>
                 </table>
                 
                 <UpdatePost
